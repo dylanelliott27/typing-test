@@ -1,15 +1,17 @@
-const quoteDisplayElement = document.getElementById('quoteDisplay')
-const quoteInputElement = document.getElementById('quoteInput')
+const quoteElement = document.getElementById('quote')
+const textAreaElement = document.getElementById('input')
 const resultElement = document.getElementById('result');
-var timerElement = document.getElementById("timer")
+var timerDiv = document.getElementById("timer")
+
 let correctLetters = 0;
 let incorrectLetters = 0;
 
 
-window.onload = function () {
+textAreaElement.addEventListener('click', () => {
     startTimer();
-    renderNewQuote();
-};
+})
+
+displayQuote();
 
 function startTimer() {
     
@@ -23,27 +25,21 @@ function startTimer() {
         }
         
         // todo: fix formatting of timer
-        timerElement.textContent = '00' + ':' + currentSecond;
+        timerDiv.textContent = '00' + ':' + currentSecond;
         currentSecond--;
 
     }, 1000);
 }
 
 
-/**
- * Adding an event listener. 'Input' element is called every time anything changes, for ex: user types a character.
- * 
- * Loop over all characters and compare each individual character in the input element with each character in the display element, based on their position.
- * 
- * If the characters match, add 'correct' class to the element which sets a specific color
- */
-quoteInputElement.addEventListener('input', (e) => {
-    const quoteLetterArray = quoteDisplayElement.querySelectorAll('span')
-    const userInputLetters = quoteInputElement.value.split('');
+
+textAreaElement.addEventListener('input', (e) => {
+    const quoteLetterArray = quoteElement.querySelectorAll('span')
+    const userInputLetters = textAreaElement.value.split('');
 
     // If the user is at the end of the sentence, render new quote
     if(quoteLetterArray.length === userInputLetters.length){
-        renderNewQuote();
+        displayQuote();
     }
 
     // A quick check to see if the last letter typed in by the user matches with the quote's respective letter, then increments correctLetters
@@ -60,60 +56,53 @@ quoteInputElement.addEventListener('input', (e) => {
     quoteLetterArray.forEach((span, idx) => {
         // For if the user has not typed in the current letter index yet
         if(!userInputLetters[idx]){
-            span.classList.remove('correct');
-            span.classList.remove('incorrect');
+            span.classList.remove('right');
+            span.classList.remove('wrong');
             return;
         }
         // If the current spans value doesn't match the same index of the users input
         if(span.innerText != userInputLetters[idx]){
-            span.classList.remove('correct');
-            span.classList.add('incorrect');
+            span.classList.remove('right');
+            span.classList.add('wrong');
         }
         // If the value of the span and the same index in the users input match
         else{
-            span.classList.remove('incorrect');
-            span.classList.add('correct');
+            span.classList.remove('wrong');
+            span.classList.add('right');
         }
 
     })
 })
 
 
-/**
- * Function to fetch api and convert response to json.
- */
-function getRandomQuote()
+function fetchQuote()
 {
     // TODO:: Fetch many quotes and store them in a array. When the sentence is finished, there is usually a pause until the next quote is fetched.
-    return fetch('http://api.quotable.io/random')
-    .then(response => response.json())
-    .then(data => data.content)
+    return fetch('http://metaphorpsum.com/paragraphs/1/1')
+    .then(response => response.text())
+    .then(data => data)
     .catch(err => console.log(err))
 }
 
-/**
- * Function to get random quotes from api and display them in html. 
- */
-async function renderNewQuote()
-{
-    const quote =  await getRandomQuote()
-    quoteDisplayElement.innerHTML = '';
 
-    //Creating an element 'span' and setting each character to the span element.
+async function displayQuote()
+{
+    const quote =  await fetchQuote()
+    quoteElement.innerHTML = '';
+
     quote.split('').forEach(character => {
         const characterSpan = document.createElement('span');
-        //const space = document.createElement('span');
-        //space.innerText = ' ';
         characterSpan.innerText = character
-        quoteDisplayElement.appendChild(characterSpan)
-        //quoteDisplayElement.appendChild(space);
+        quoteElement.appendChild(characterSpan)
+
     })
-    // Textarea should be null everytime a new quote is displayed.
-    quoteInputElement.value = null;
+    textAreaElement.value = '';
 }
 
 
 function calculateWPM(){
     console.log("WPM: " + correctLetters / 5);
     resultElement.innerText = "WPM: " + correctLetters / 5;
+    const netWPM = ((correctLetters / 5) - incorrectLetters) / 1;
+    console.log("Net WPM: " + netWPM);
 }
