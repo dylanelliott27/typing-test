@@ -13,6 +13,7 @@ textAreaElement.addEventListener('click', () => {
 
 displayQuote();
 
+
 function startTimer() {
     
     let currentSecond = 60;

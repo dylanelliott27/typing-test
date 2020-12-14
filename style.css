@@ -1,3 +1,59 @@
+body{
+	background-image: url("images/note.png");
+	background-size:cover;
+	margin: 0 auto;
+	width:80%;
+	text-align:center;
+}
+
+.container{
+	margin-top:120px;
+} 
+
+#timer{
+	font-weight: bold;
+	font-size:80px;
+	display:inline-block;
+}
+
+#container{
+	font-style:italic;
+	font-size:60px;
+}
+
+#input{
+	margin-top:40px;
+	font-style:italic;
+	width:80%;
+  	height: 50px;
+  	font-size:40px;
+  	border: 4px double black;
+}
+
+#input:focus {
+  outline:solid 4px black;
+}
+
+#input::placeholder {
+    text-align: center;
+}
+
+#result{
+	text-decoration: underline;
+	text-decoration-style: double;
+	text-decoration-color: navy;
+	font-weight:normal;
+	font-size:70px;
+    animation: fadein 5s linear 1s 1 normal;
+	
+}
+
+@keyframes fadein {
+	0% {opacity: 0} 
+
+  100% {opacity: 1} 
+}
+
 .right{
     color: green;
 }
