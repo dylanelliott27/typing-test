@@ -11,10 +11,21 @@
 		<img alt="clock" src="images/clock.jpg" width="55px" height="55px">
 	    <div id="timer" >00:60</div>
 		<div id="container">
-	        <div id="quote"></div>
-	        <textarea id="input" placeholder="TYPE HERE!!"></textarea>
-	    </div>
-	    <h1 style="color: black" id="result"></h1>
+			<div id="quote"></div>
+			<form>
+				<textarea id="input" placeholder="TYPE HERE!!"></textarea>
+			</form>
+		</div>
+		<div class="resultcard">
+			<h1>TEST RESULTS:</h1>
+			<div class="results">
+				<h1 style="color: black" id="netwpm">50 NET WPM </h1>
+				<h1 style="color: black" id="grosswpm">47  GROSS WPM</h1>
+				<h1 id="errors" class="errors">Errors: </h1>
+			</div>
+			<p class="grosswpmdesc">The Gross Words Per Minute (WPM) is a calculation of how fast you type with no error penalties.</p>
+			<p class="netwpmdesc"> The Net WPM includes the mistakes and gives a better result of your typing abilities.</p>
+		</div>
 	    <script src="typingtest.js"></script>
     </div>
 </body>

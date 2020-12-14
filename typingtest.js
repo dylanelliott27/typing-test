@@ -1,28 +1,41 @@
 const quoteElement = document.getElementById('quote')
 const textAreaElement = document.getElementById('input')
-const resultElement = document.getElementById('result');
+const grossWPM = document.getElementById('grosswpm');
 var timerDiv = document.getElementById("timer")
+const netWPMElement = document.getElementById("netwpm");
+const errorsP = document.getElementById("errors");
+const resultCard = document.querySelector('.resultcard');
 
 let correctLetters = 0;
 let incorrectLetters = 0;
+let testRunning = false;
 
-
+/* -- daiki-- */
 textAreaElement.addEventListener('click', () => {
-    startTimer();
+    if(!testRunning){
+        startTimer();
+    }
 })
+
 
 displayQuote();
 
-
+/* -- Dylan -- */
+//
 function startTimer() {
     
-    let currentSecond = 60;
+    resultCard.style.display = 'none';
+
+    let currentSecond = 5;
+
+    testRunning = true;
 
     var timer = setInterval(function () {
 
         if(currentSecond <= 0){
             clearInterval(timer);
-            calculateWPM();
+            showResultsOnCard();
+            testRunning = false;
         }
         
         // todo: fix formatting of timer
@@ -33,7 +46,7 @@ function startTimer() {
 }
 
 
-
+/* === dylan === */
 textAreaElement.addEventListener('input', (e) => {
     const quoteLetterArray = quoteElement.querySelectorAll('span')
     const userInputLetters = textAreaElement.value.split('');
@@ -76,16 +89,18 @@ textAreaElement.addEventListener('input', (e) => {
 })
 
 
+/* -- disha --- */
 function fetchQuote()
 {
     // TODO:: Fetch many quotes and store them in a array. When the sentence is finished, there is usually a pause until the next quote is fetched.
-    return fetch('http://metaphorpsum.com/paragraphs/1/1')
-    .then(response => response.text())
-    .then(data => data)
-    .catch(err => console.log(err))
+    return fetch('http://metaphorpsum.com/paragraphs/1/1') // Sending HTTP response to the API.
+    // Fetch returns a promise, so we use .then, and we have access to the response info in the response variable
+    .then(response => response.text()) // Inside the BODY of the response, we need to get the quote (response.text()), which returns another promise...
+    .then(data => data) // Once the promise from above is resolved, we have access to the data variable, which has the quote as a string
+    .catch(err => console.log(err)) // error handling, logs an error if a network error occurs or something.
 }
 
-
+/* -- dylan *--- */
 async function displayQuote()
 {
     const quote =  await fetchQuote()
@@ -100,10 +115,24 @@ async function displayQuote()
     textAreaElement.value = '';
 }
 
-
+/* -- disha -- */
 function calculateWPM(){
-    console.log("WPM: " + correctLetters / 5);
-    resultElement.innerText = "WPM: " + correctLetters / 5;
-    const netWPM = ((correctLetters / 5) - incorrectLetters) / 1;
-    console.log("Net WPM: " + netWPM);
+
+    const grossWPM = correctLetters / 5;
+    const netWPM = Math.round(((correctLetters / 5) - incorrectLetters)) / 1;
+
+    return {grossWPM, netWPM};
+    
+}
+
+
+/* -- daiki --- */
+function showResultsOnCard(){
+    const result = calculateWPM();
+
+
+    grossWPM.innerText = "Gross WPM: " + result.grossWPM;    
+    netWPMElement.innerText = "Net WPM: " + result.netWPM;
+    errorsP.innerText = "Errors: " + incorrectLetters;
+    resultCard.style.display = 'block';
 }

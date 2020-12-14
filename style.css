@@ -14,10 +14,10 @@ body{
 	font-weight: bold;
 	font-size:80px;
 	display:inline-block;
+	color: #b95756;
 }
 
 #container{
-	font-style:italic;
 	font-size:60px;
 }
 
@@ -25,9 +25,10 @@ body{
 	margin-top:40px;
 	font-style:italic;
 	width:80%;
-  	height: 50px;
+  	height: 200px;
   	font-size:40px;
-  	border: 4px double black;
+	  border: 4px double black;
+	  padding: 20px;
 }
 
 #input:focus {
@@ -61,4 +62,36 @@ body{
 .wrong{
     color: red;
     text-decoration: underline;
+}
+
+
+.resultcard{
+	background-color: #b95756;
+	border-radius: 20px;
+	width: 50%;
+	margin: 0 auto;
+	font-family: 'futura';
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	margin-top: 100px;
+	margin-bottom: 100px;
+	display: none;
+}
+
+.results{
+	padding-left: 10px;
+	padding-right: 10px;
+	border: 1px solid black;
+	border-radius: 20px;
+	width: 50%;
+	margin: 0 auto;
+}
+
+.resultcard > p{
+	font-size: 20px;
+	padding: 20px;
 }
