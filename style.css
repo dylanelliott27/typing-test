@@ -1,6 +1,7 @@
 body{
 	background-image: url("images/note.png");
 	background-size:cover;
+	background-repeat: no-repeat;
 	margin: 0 auto;
 	width:80%;
 	text-align:center;
